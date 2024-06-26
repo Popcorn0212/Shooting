@@ -8,11 +8,11 @@ public class PlayerFire : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject firePosition;
     //public GameObject[] firePositions;
-
+    public AudioSource audioSource;
 
     void Start()
     {
-        
+        audioSource.volume = 0.2f;
     }
 
     void Update()
@@ -31,9 +31,14 @@ public class PlayerFire : MonoBehaviour
             // 3-2. 플레이어의 위치에서 위로 1.5미터 지점을 지정하는 방법
             //Vector3 firePos = transform.position + new Vector3(0, 1.5f, 0);
             //go.transform.position = firePos;
+
+            // 총알 발사음을 실행한다.
+            audioSource.Play();
+            //audioSource.Stop();
+            //audioSource.Pause();
         }
 
-        // 두 개 이상 총알울 발사할 경우
+        #region 두 개 이상 총알울 발사할 경우
         //if (Input.GetMouseButtonDown(0))
         //{
         //    for (int i = 0; i < firePosition.Length; i++)
@@ -45,5 +50,6 @@ public class PlayerFire : MonoBehaviour
         //        go.transform.position = firePositions[i].transform.position;
         //    }
         //}
+        #endregion
     }
 }

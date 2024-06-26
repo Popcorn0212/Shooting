@@ -10,10 +10,20 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 0.1f;
     //Vector3 direction;
 
+    // < 숙제 >
+    // 적 생성용 프리팹
+    //public GameObject enemyPrefab;
+    // 적을 생성할 시간
+    //public float spawnTime = 1.0f;
+
     // 처음 실행되었을 때 한번만 실행되는 함수
     void Start()
     {
         //transform.position += Vector3.right;
+
+        // < 숙제 >
+        // 적 생성
+        //Invoke("SpawnEnemy", spawnTime);
     }
 
     // 매 프레임마다 반복해서 실행하는 함수
@@ -52,4 +62,14 @@ public class PlayerMove : MonoBehaviour
 
 
     }
+
+    // < 숙제 >
+    // 적 생성용
+    //void SpawnEnemy()
+    //{
+    //    // 무작위 위치 지정
+    //    Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+    //    // 적 생성
+    //    Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+    //}
 }
