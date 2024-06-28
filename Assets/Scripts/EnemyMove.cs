@@ -37,10 +37,20 @@ public class EnemyMove : MonoBehaviour
         // 그렇지 않다면, 방향을 플레이어 쪽으로 설정한다.
         else
         {
-            // 플레이어를 향한 방향 (플레이어 위치 - 나의 위치)
-            dir = player.transform.position - transform.position;
-            dir.Normalize();
+            // 만일, 플레이어가 있다면...
+            if (player != null)
+            { 
+                // 플레이어를 향한 방향 (플레이어 위치 - 나의 위치)
+                dir = player.transform.position - transform.position;
+                dir.Normalize();
+            }
+            else
+            {
+                dir = Vector3.down;
+            }
         }
+
+
     }
 
     void Update()
@@ -50,5 +60,21 @@ public class EnemyMove : MonoBehaviour
 
         // p = p0 + vt
         transform.position += dir * moveSpeed * Time.deltaTime;
+        //transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+         // 충돌한 대상이 플레이어라면...
+        if (other.gameObject.name == "Player")
+        {
+            // 플레이어를 제거한다.
+            Destroy(player.gameObject);
+        }
+   
+        // 나를 제거한다.
+        Destroy(gameObject);
+    }
+
+
 }

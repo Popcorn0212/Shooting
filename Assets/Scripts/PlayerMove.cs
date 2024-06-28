@@ -63,6 +63,24 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+
+    // 적과 충돌 시 플레이어와 적을 같이 제거한다.
+    private void OnTriggerEnter(Collider en)
+    {
+        EnemyMove enemy = en.gameObject.GetComponent<EnemyMove>();
+
+        // enemy 변수에 값이 있다면...
+        if (enemy != null)
+        {
+            // 충돌한 게임 오브젝트를 제거한다.
+            Destroy(en.gameObject);
+
+        }
+
+        // 나(총알)를 제거한다.
+        Destroy(gameObject);
+    }
+
     // < 숙제 >
     // 적 생성용
     //void SpawnEnemy()
