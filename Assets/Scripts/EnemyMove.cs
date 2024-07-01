@@ -11,6 +11,7 @@ public class EnemyMove : MonoBehaviour
     public float moveSpeed = 10;
     public GameObject player;
     public int downRate = 35;
+    //public GameObject explosionPrefab;
 
     Vector3 dir;
 
@@ -69,12 +70,19 @@ public class EnemyMove : MonoBehaviour
         if (other.gameObject.name == "Player")
         {
             // 플레이어를 제거한다.
-            Destroy(player.gameObject);
+            Destroy(other.gameObject);
         }
    
         // 나를 제거한다.
         Destroy(gameObject);
     }
 
-
+    // 삭제되는 순간에 호풀되는 이벤트 함수
+    //private void OnDestroy()
+    //{
+    //    // 폭발 효과 오브젝트를 나의 위치에 생성한다.
+    //    GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+    //    ParticleSystem fx = explosion.GetComponent<ParticleSystem>();
+    //    fx.Play();
+    //}
 }
