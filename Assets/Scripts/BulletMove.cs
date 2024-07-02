@@ -57,7 +57,6 @@ public class BulletMove : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-
     }
 
     // 물리적 충돌이 발생했을 때 실행되는 이벤트 함수.
@@ -78,8 +77,11 @@ public class BulletMove : MonoBehaviour
         // enemy 변수에 값이 있다면...
         if (enemy != null)
         {
-            // 충돌한 게임 오브젝트를 제거한다.
+            // 충돌한 에너미 오브젝트를 제거한다.
             Destroy(other.gameObject);
+
+            // GameManager에 있는 currentScore 값을 1 추가한다.
+            GameManager.gm.AddScore(1);
 
             // 폭발 이펙트 프리팹를 애너미가 있던 자리에 생성한다.
             GameObject fx = Instantiate(explosionPrefab, other.transform.position, other.transform.rotation);
@@ -88,12 +90,14 @@ public class BulletMove : MonoBehaviour
             ParticleSystem ps = fx.GetComponent<ParticleSystem>();
             ps.Play();
 
-            // 플레이어 게임 오브젝트에 붙어있는 PlayerFire 컴포넌트를 가져온다.
-            PlayerFire playerFire = player.GetComponent<PlayerFire>();
+            if (player != null)
+            {
+                // 플레이어 게임 오브젝트에 붙어있는 PlayerFire 컴포넌트를 가져온다.
+                PlayerFire playerFire = player.GetComponent<PlayerFire>();
 
-            // PlayerFire 컴포넌트에 있는 PlayExplosionSound 함수를 실행한다.
-            playerFire.PlayExplosionSound();
-
+                // PlayerFire 컴포넌트에 있는 PlayExplosionSound 함수를 실행한다.
+                playerFire.PlayExplosionSound();
+            }
         }
 
         // 나를 제거한다.
@@ -115,6 +119,10 @@ public class BulletMove : MonoBehaviour
             pFire.bullets.Add(gameObject);
             lifeSpan = 3.0f;
             gameObject.SetActive(false);
+            if (player != null)
+            {
+                gameObject.transform.parent = player.transform;
+            }
         }
         else if(pFire.useArray)
         {
@@ -127,6 +135,10 @@ public class BulletMove : MonoBehaviour
                     pFire.bulletArray[i] = gameObject;
                     gameObject.SetActive(false);
                     lifeSpan = 3.0f;
+                    if (player != null)
+                    {
+                        gameObject.transform.parent = player.transform;
+                    }
                     break;
                 }
             }
