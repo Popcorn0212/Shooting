@@ -8,10 +8,10 @@ public class EnemyFactory : MonoBehaviour
     // 지정한 시간이 될 때마다 에너미를 생성한다.
     // 지정 시간, 에너미 프리팹, 경과된 시간
 
-    public GameObject enemyPrefab;
-    public float delayTime = 2.0f;
+    public GameObject enemyPrefab; //v 애너미 프리팹 지정 //
+    public float delayTime = 2.0f; //v 생성 주기시간 지정 //
 
-    float currentTime = 0;
+    float currentTime = 0; //v 경과시간 지정 //
     float printTime = 1.0f;
     int timeCount = 3;
     bool isTimerStart = true;
@@ -29,16 +29,16 @@ public class EnemyFactory : MonoBehaviour
 
     void Update()
     {
-        currentTime += Time.deltaTime;
+        currentTime += Time.deltaTime; //v 보간 //
 
-        if (currentTime > delayTime)
+        if (currentTime > delayTime) //v 만약, 주기시간보다 경과시간이 클 때 //
         {
             // 에너미를 생성한다.
-            GameObject enemy = Instantiate(enemyPrefab);
-            enemy.transform.position = transform.position;
+            GameObject enemy = Instantiate(enemyPrefab); //v 지정한 애너미 프리팹 생성 //
+            enemy.transform.position = transform.position; //v 애너미 팩토리로 생성 위치 지정 //
 
             // 경과 시간을 다시 0으로 초기화한다.
-            currentTime = 0;
+            currentTime = 0; //v 계속 생성하기 위해 경과시간 초기화 //
         }
 
         #region 3초 카운트 기능 구현 연습

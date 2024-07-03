@@ -8,7 +8,7 @@ public class EnemyMove : MonoBehaviour
     // 확률에 따라 추첨한다. -> 확률 변수, 랜덤 값
 
     // 필요 요소: 방향, 속력(크기)
-    public float moveSpeed = 10;
+    public float moveSpeed = 10; //v 애너미 속력 지정 //
     public GameObject player;
     public int downRate = 35;
     //public GameObject explosionPrefab;
@@ -58,9 +58,10 @@ public class EnemyMove : MonoBehaviour
     {
         // 아래 방향(월드 좌표)
         //Vector3 dir = new Vector3(0, -1, 0);
+        //Vector3 dir = new Vector3.down; //v 방향을 아래로 지정 //
 
         // p = p0 + vt
-        transform.position += dir * moveSpeed * Time.deltaTime;
+        transform.position += dir * moveSpeed * Time.deltaTime; //v 이동 공식 //
         //transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
 
@@ -74,6 +75,9 @@ public class EnemyMove : MonoBehaviour
 
             // 최고 점수를 저장한다.
             PlayerPrefs.SetInt("BestScore", GameManager.gm.BestScore);
+
+            // 게임 오버 UI를 활성화한다.
+            GameManager.gm.ShowGameOverUI();
         }
    
         // 나를 제거한다.
