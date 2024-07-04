@@ -8,7 +8,11 @@ public class PlayerMove : MonoBehaviour
     // 방향, 속력 = 속도(Vector)
 
     public float moveSpeed = 0.1f;
+    public float rotSpeed = 100;
     //Vector3 direction;
+
+    float rotY;
+    Animator myAnim;
 
     // < 숙제 >
     // 적 생성용 프리팹
@@ -19,11 +23,8 @@ public class PlayerMove : MonoBehaviour
     // 처음 실행되었을 때 한번만 실행되는 함수
     void Start()
     {
-        //transform.position += Vector3.right;
-
-        // < 숙제 >
-        // 적 생성
-        //Invoke("SpawnEnemy", spawnTime);
+        // 나에게 붙어있는 Animator 컴포넌트 가져오기
+        myAnim = GetComponent<Animator>();
     }
 
     // 매 프레임마다 반복해서 실행하는 함수
@@ -49,6 +50,57 @@ public class PlayerMove : MonoBehaviour
         transform.position += direction * moveSpeed * Time.deltaTime;
         //transform.eulerAngles += direction * moveSpeed * Time.deltaTime;
         //transform.localScale += direction * moveSpeed * Time.deltaTime;
+
+        // 기체의 회전: r = r0 + vt
+        rotY += (h * -1) * rotSpeed * Time.deltaTime;
+        transform.eulerAngles = new Vector3(0, rotY, 0); 
+
+        // 만일, 사용자의 좌우 입력이 없다면...
+        float inputH = Mathf.Abs(h);
+        if(inputH < 0.1f)
+        {
+            // 기체의 회전값을 다시 원래대로 돌려놓는다.
+            //transform.eulerAngles = Vector3.zero;
+
+            #region 1. 오일러 앵글을 직접 사용하는 방법
+            //if (Mathf.Abs(transform.eulerAngles.y) > 1.0f)
+            //{
+            //    if (transform.eulerAngles.y < 0)
+            //    {
+            //        rotY += rotSpeed * Time.deltaTime;
+            //    }
+            //    else
+            //    {
+            //        rotY -= rotSpeed * Time.deltaTime;
+            //    }
+
+            //    transform.eulerAngles = new Vector3(0, rotY, 0);
+            //}
+            //else
+            //{
+            //    transform.eulerAngles = Vector3.zero;
+            //}
+            #endregion
+
+            // 2. Lerp를 이용한 방법
+            rotY = Mathf.Lerp(rotY, 0, Time.deltaTime * 2);
+            transform.eulerAngles = new Vector3(0, rotY, 0);
+        }
+
+        #region 3. 애니메이터를 사용한 회전 애니메이션 주기
+        //if(h > 0.2f)
+        //{
+        //    myAnim.SetTrigger("RightMove");
+        //}
+        //else if(h < -0.2f)
+        //{
+        //    myAnim.SetTrigger("LeftMove");
+        //}
+        //else
+        //{
+        //    myAnim.SetTrigger("Idle");
+        //}
+        #endregion
 
         #region 사용자의 키 입력 이벤트
         // 특정 키를 입력했을 때 사용하는 함수(Get, GetDown, GetUp)
@@ -81,13 +133,4 @@ public class PlayerMove : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // < 숙제 >
-    // 적 생성용
-    //void SpawnEnemy()
-    //{
-    //    // 무작위 위치 지정
-    //    Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-    //    // 적 생성
-    //    Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-    //}
 }

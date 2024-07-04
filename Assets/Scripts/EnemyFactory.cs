@@ -36,6 +36,8 @@ public class EnemyFactory : MonoBehaviour
             // 에너미를 생성한다.
             GameObject enemy = Instantiate(enemyPrefab); //v 지정한 애너미 프리팹 생성 //
             enemy.transform.position = transform.position; //v 애너미 팩토리로 생성 위치 지정 //
+            enemy.transform.rotation = transform.rotation;
+
 
             // 경과 시간을 다시 0으로 초기화한다.
             currentTime = 0; //v 계속 생성하기 위해 경과시간 초기화 //
