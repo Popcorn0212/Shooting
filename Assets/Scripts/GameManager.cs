@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;       // UI 클래스 관련 네임 스페이스
 using UnityEngine.SceneManagement;    // Scene을 다루과 관리하는 클래스 관련 네임 스페이스
-using UnityEditor;          // Unity Editor 관련 기능을 다루는 클래스 관련 네임 스페이스
+using UnityEditor;
+using Unity.VisualScripting;          // Unity Editor 관련 기능을 다루는 클래스 관련 네임 스페이스
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     public ScoreUI scoreUI;
     public GameObject gameOverUI;
+    public GameObject bossObject;
+    public GameObject[] enemyFactories;
+    public int bossAppearScore = 10;
 
     int currentScore;
 
@@ -64,7 +68,8 @@ public class GameManager : MonoBehaviour
         currentScore += point;
 
         // 2. 현재 점수를 UI에 출력한다.
-        scoreUI.text_currentScore.text = currentScore.ToString();
+        //scoreUI.text_currentScore.text = currentScore.ToString();
+        scoreUI.tmp_currentScore.text = currentScore.ToString();
 
         // 3. 만일, 현재 점수가 최고 점수보다 더 높다면...
         if (currentScore > bestScore)
@@ -75,8 +80,25 @@ public class GameManager : MonoBehaviour
             // 3-2, 변경된 최고 점수를 UI에 출력한다.
             scoreUI.text_bestScore.text = bestScore.ToString();
         }
+
+        // 만일, 보스가 비활성화 상태라면...
+        if (!bossObject.activeInHierarchy)
+        {
+            // 4. 만일, 현재 점수가 보스 등장에 필요한 점수를 넘어서면
+            if (currentScore > bossAppearScore)
+            {
+                // 4-1. 보스를 활성화한다.
+                bossObject.SetActive(true);
+
+                // 4-2. 기존의 EnemyFactory들은 모두 비활성화 처리를 한다.
+                for (int i = 0; i < enemyFactories.Length; i++)
+                {
+                    enemyFactories[i].SetActive(false);
+                }
+            }
+        }
     }
-    
+
     // 게임 오버가 되면 실행할 함수
     public void ShowGameOverUI()
     {
